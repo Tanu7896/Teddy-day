@@ -1,0 +1,102 @@
+const pages=document.querySelectorAll('.page');
+const music=document.getElementById('bgMusic');
+
+function goTo(id){
+  pages.forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==="game") setupGame();
+}
+
+/* 💖 EXTRA LOVE START */
+function startLove(){
+  music.play().catch(()=>{});
+  goTo('intro');
+}
+
+/* MAIN START */
+function start(){
+  goTo('hug');
+  setTimeout(()=>goTo('days'),3000);
+}
+
+/* DAYS COUNTER */
+const startDate=new Date("2023-11-12");
+const today=new Date();
+const days=Math.floor((today-startDate)/(1000*60*60*24));
+document.querySelector('.days-text').innerText=
+`Deepika, we’ve been us for ${days} days 🧸🤍`;
+
+/* MEMORIES */
+const memories=[
+{img:"memories/memory1.jpeg",q:"Even silence becomes beautiful when it carries your presence."},
+{img:"memories/memory2.jpeg",q:"The world softens wherever your eyes rest."},
+{img:"memories/memory3.jpeg",q:"You stayed — and that choice became my forever."},
+{img:"memories/memory4.jpeg",q:"In a world that changes daily, you remained constant."},
+{img:"memories/memory5.jpeg",q:"Some souls don’t meet by chance; they recognize each other."},
+{img:"memories/memory6.jpeg",q:"Loving you feels like finally being understood."}
+];
+
+let m=0;
+const imgEl=document.getElementById("memoryImg");
+const qEl=document.getElementById("memoryQuote");
+
+function showMemory(){
+  imgEl.src=memories[m].img;
+  qEl.innerText=memories[m].q;
+}
+showMemory();
+
+function nextMemory(){
+  m++;
+  if(m<memories.length) showMemory();
+  else goTo('game');
+}
+
+/* 🎮 GAME WITH FLIP + SHUFFLE */
+const cardsBox=document.querySelector(".cards");
+const gameMsg=document.getElementById("gameMsg");
+
+function setupGame(){
+  cardsBox.innerHTML="";
+  gameMsg.innerText="";
+  const items=["🧸","❤️","❤️","❤️","❤️","❤️"].sort(()=>Math.random()-0.5);
+
+  items.forEach(sym=>{
+    const card=document.createElement("div");
+    card.className="card";
+
+    card.innerHTML=`
+      <div class="card-inner">
+        <div class="card-face">❓</div>
+        <div class="card-face card-back">${sym}</div>
+      </div>`;
+
+    card.onclick=()=>{
+      if(card.classList.contains("flipped")) return;
+      card.classList.add("flipped");
+
+      if(sym==="🧸"){
+        confetti();
+        gameMsg.innerText=
+`Your loyalty is the quiet promise my heart trusts.
+You are not a moment — you are a direction.
+My heart learned patience the day it chose you.`;
+        setTimeout(()=>goTo('final'),3500);
+      }
+    };
+    cardsBox.appendChild(card);
+  });
+}
+
+/* 🎉 CONFETTI */
+function confetti(){
+  for(let i=0;i<40;i++){
+    const c=document.createElement("span");
+    c.className="confetti";
+    c.innerText=Math.random()>.5?"💖":"✨";
+    c.style.left=Math.random()*100+"vw";
+    c.style.animationDuration=2+Math.random()*2+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}

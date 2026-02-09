@@ -1,15 +1,11 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
   height:100vh;
   font-family:'Nunito',sans-serif;
-  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#cfd9ff);
+  background:linear-gradient(-45deg,#ffd1dc,#ffb3c6,#fbc2eb,#fddde6);
   background-size:400% 400%;
-  animation:bg 15s ease infinite;
+  animation:bg 18s ease infinite;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -25,95 +21,103 @@ body{
 
 .page{
   position:absolute;
-  inset:10%;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(14px);
-  border-radius:22px;
-  padding:25px;
+  inset:8%;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(16px);
+  border-radius:24px;
+  padding:28px;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   opacity:0;
+  transform:translateY(20px);
   pointer-events:none;
-  transition:opacity .6s ease;
+  transition:opacity .8s ease, transform .8s ease;
 }
 
 .page.active{
   opacity:1;
+  transform:translateY(0);
   pointer-events:auto;
 }
 
 .teddy{
-  width:180px;
+  width:190px;
   margin-bottom:20px;
 }
 
+.clickable{
+  cursor:pointer;
+  transition:transform .4s ease;
+}
+
+.clickable:active{
+  transform:scale(1.05);
+}
+
 .hug{
-  animation:pulse 2s infinite;
+  animation:pulse 2.5s infinite;
 }
 
 @keyframes pulse{
-  50%{transform:scale(1.08)}
+  50%{transform:scale(1.1)}
 }
 
 .memory{
-  width:220px;
-  border-radius:16px;
-  margin-bottom:15px;
-  opacity:1;
-  transition:opacity .6s ease;
+  width:240px;
+  border-radius:18px;
+  margin-bottom:18px;
+  transition:opacity .6s ease, transform .6s ease;
 }
 
 .quote{
   font-family:'Cormorant Garamond',serif;
-  font-size:20px;
+  font-size:22px;
   text-align:center;
-  margin-bottom:15px;
-  opacity:1;
-  transition:opacity .6s ease;
+  margin-bottom:18px;
+  transition:opacity .6s ease, transform .6s ease;
+}
+
+.vibrant{
+  background:linear-gradient(90deg,#ff4d6d,#ff85a1);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 12px rgba(255,105,135,.4);
 }
 
 .fade-out{
   opacity:0;
-}
-
-.soft{
-  opacity:.85;
-  margin-bottom:15px;
+  transform:translateY(10px);
 }
 
 button{
-  padding:10px 26px;
+  padding:12px 30px;
   border:none;
-  border-radius:25px;
-  background:linear-gradient(135deg,#ff6fae,#ff9acb);
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
   color:#fff;
   font-size:15px;
   cursor:pointer;
 }
 
-/* CARD FLIP */
 .cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-top:15px;
+  gap:16px;
 }
 
 .card{
-  width:70px;
-  height:70px;
-  perspective:600px;
-  cursor:pointer;
+  width:75px;
+  height:75px;
+  perspective:700px;
 }
 
 .card-inner{
   width:100%;
   height:100%;
-  position:relative;
+  transition:transform .7s;
   transform-style:preserve-3d;
-  transition:transform .6s;
 }
 
 .card.flipped .card-inner{
@@ -123,12 +127,12 @@ button{
 .card-face{
   position:absolute;
   inset:0;
-  background:rgba(255,255,255,.25);
-  border-radius:12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.3);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:30px;
+  font-size:32px;
   backface-visibility:hidden;
 }
 
@@ -137,9 +141,6 @@ button{
 }
 
 .final-line{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;
-  text-align:center;
   opacity:0;
 }
 
@@ -151,19 +152,16 @@ button{
   to{opacity:1}
 }
 
-/* CONFETTI */
+/* confetti unchanged */
 .confetti{
   position:fixed;
   top:-20px;
-  font-size:20px;
+  font-size:22px;
   animation:confettiFall linear forwards;
   pointer-events:none;
   z-index:999;
 }
 
 @keyframes confettiFall{
-  to{
-    transform:translateY(110vh) rotate(360deg);
-    opacity:0;
-  }
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
 }

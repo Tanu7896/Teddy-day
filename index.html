@@ -14,41 +14,46 @@
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 💖 EXTRA LOVE START -->
+<!-- START PAGE -->
 <section class="page active" id="startLove">
   <h2 class="quote">Click for extra love 💕</h2>
   <button onclick="startLove()">Start</button>
 </section>
 
-<!-- 🧸 INTRO -->
+<!-- INTRO -->
 <section class="page" id="intro">
   <img src="memories/teddy.png" class="teddy">
   <p class="soft">Deepika… this teddy is for you 🤍</p>
   <button onclick="start()">Tap the Teddy</button>
 </section>
 
+<!-- HUG -->
 <section class="page" id="hug">
   <img src="memories/teddy.png" class="teddy hug">
   <p class="quote">Whenever you miss me, hug this teddy… it’s me.</p>
 </section>
 
+<!-- DAYS -->
 <section class="page" id="days">
   <p class="days-text"></p>
   <button onclick="goTo('memoriesPage')">Continue</button>
 </section>
 
+<!-- MEMORIES -->
 <section class="page" id="memoriesPage">
   <img id="memoryImg" class="memory">
   <p id="memoryQuote" class="quote"></p>
   <button onclick="nextMemory()">Next</button>
 </section>
 
+<!-- GAME -->
 <section class="page" id="game">
   <p class="quote">Find my teddy 🧸</p>
   <div class="cards"></div>
   <p id="gameMsg" class="quote"></p>
 </section>
 
+<!-- FINAL -->
 <section class="page" id="final">
   <img src="memories/teddy.png" class="teddy">
   <p class="final-line fade-in">

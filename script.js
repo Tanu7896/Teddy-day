@@ -7,26 +7,30 @@ function goTo(id){
   if(id==="game") setupGame();
 }
 
-/* START LOVE */
+/* START */
 function startLove(){
+  music.currentTime=0;
   music.play().catch(()=>{});
   goTo('intro');
 }
 
-/* MAIN START */
 function start(){
   goTo('hug');
   setTimeout(()=>goTo('days'),3000);
 }
 
-/* DAYS COUNTER */
+function restart(){
+  music.currentTime=0;
+  goTo('startLove');
+}
+
+/* DAYS */
 const startDate=new Date("2023-11-12");
-const today=new Date();
-const days=Math.floor((today-startDate)/(1000*60*60*24));
+const days=Math.floor((new Date()-startDate)/(1000*60*60*24));
 document.querySelector('.days-text').innerText=
 `Deepika, we’ve been us for ${days} days 🧸🤍`;
 
-/* MEMORIES */
+/* MEMORIES + SWIPE */
 const memories=[
 {img:"memories/memory1.jpeg",q:"Even silence becomes beautiful when it carries your presence."},
 {img:"memories/memory2.jpeg",q:"The world softens wherever your eyes rest."},
@@ -43,24 +47,27 @@ const qEl=document.getElementById("memoryQuote");
 function showMemory(){
   imgEl.classList.add("fade-out");
   qEl.classList.add("fade-out");
-
   setTimeout(()=>{
     imgEl.src=memories[m].img;
     qEl.innerText=memories[m].q;
     imgEl.classList.remove("fade-out");
     qEl.classList.remove("fade-out");
-  },300);
+  },350);
 }
 showMemory();
 
 function nextMemory(){
   m++;
-  if(m<memories.length){
-    showMemory();
-  }else{
-    goTo('game');
-  }
+  if(m<memories.length) showMemory();
+  else goTo('game');
 }
+
+/* swipe */
+let startX=0;
+imgEl.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+imgEl.addEventListener("touchend",e=>{
+  if(startX-e.changedTouches[0].clientX>40) nextMemory();
+});
 
 /* GAME */
 const cardsBox=document.querySelector(".cards");
@@ -69,19 +76,16 @@ const gameMsg=document.getElementById("gameMsg");
 function setupGame(){
   cardsBox.innerHTML="";
   gameMsg.innerText="";
-  const items=["🧸","❤️","❤️","❤️","❤️","❤️"].sort(()=>Math.random()-0.5);
-
-  items.forEach(sym=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
-      <div class="card-inner">
-        <div class="card-face">❓</div>
-        <div class="card-face card-back">${sym}</div>
-      </div>`;
-    card.onclick=()=>{
-      if(card.classList.contains("flipped")) return;
-      card.classList.add("flipped");
+  ["🧸","❤️","❤️","❤️","❤️","❤️"].sort(()=>Math.random()-0.5)
+  .forEach(sym=>{
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`<div class="card-inner">
+      <div class="card-face">❓</div>
+      <div class="card-face card-back">${sym}</div></div>`;
+    c.onclick=()=>{
+      if(c.classList.contains("flipped"))return;
+      c.classList.add("flipped");
       if(sym==="🧸"){
         confetti();
         gameMsg.innerText=
@@ -91,7 +95,7 @@ My heart learned patience the day it chose you.`;
         setTimeout(()=>goTo('final'),3500);
       }
     };
-    cardsBox.appendChild(card);
+    cardsBox.appendChild(c);
   });
 }
 

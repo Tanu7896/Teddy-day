@@ -30,7 +30,7 @@ const days=Math.floor((new Date()-startDate)/(1000*60*60*24));
 document.querySelector('.days-text').innerText=
 `Deepika, we’ve been us for ${days} days 🧸🤍`;
 
-/* MEMORIES + SWIPE */
+/* MEMORIES – CLEAN TRANSITION */
 const memories=[
 {img:"memories/memory1.jpeg",q:"Even silence becomes beautiful when it carries your presence."},
 {img:"memories/memory2.jpeg",q:"The world softens wherever your eyes rest."},
@@ -44,25 +44,31 @@ let m=0;
 const imgEl=document.getElementById("memoryImg");
 const qEl=document.getElementById("memoryQuote");
 
+imgEl.src=memories[0].img;
+qEl.innerText=memories[0].q;
+
 function showMemory(){
-  imgEl.classList.add("fade-out");
-  qEl.classList.add("fade-out");
+  imgEl.classList.add("hidden");
+  qEl.classList.add("hidden");
+
   setTimeout(()=>{
     imgEl.src=memories[m].img;
     qEl.innerText=memories[m].q;
-    imgEl.classList.remove("fade-out");
-    qEl.classList.remove("fade-out");
-  },350);
+    imgEl.classList.remove("hidden");
+    qEl.classList.remove("hidden");
+  },600);
 }
-showMemory();
 
 function nextMemory(){
-  m++;
-  if(m<memories.length) showMemory();
-  else goTo('game');
+  if(m<memories.length-1){
+    m++;
+    showMemory();
+  }else{
+    goTo('game');
+  }
 }
 
-/* swipe */
+/* SWIPE */
 let startX=0;
 imgEl.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
 imgEl.addEventListener("touchend",e=>{
@@ -76,27 +82,30 @@ const gameMsg=document.getElementById("gameMsg");
 function setupGame(){
   cardsBox.innerHTML="";
   gameMsg.innerText="";
-  ["🧸","❤️","❤️","❤️","❤️","❤️"].sort(()=>Math.random()-0.5)
-  .forEach(sym=>{
-    const c=document.createElement("div");
-    c.className="card";
-    c.innerHTML=`<div class="card-inner">
-      <div class="card-face">❓</div>
-      <div class="card-face card-back">${sym}</div></div>`;
-    c.onclick=()=>{
-      if(c.classList.contains("flipped"))return;
-      c.classList.add("flipped");
-      if(sym==="🧸"){
-        confetti();
-        gameMsg.innerText=
+  ["🧸","❤️","❤️","❤️","❤️","❤️"]
+    .sort(()=>Math.random()-0.5)
+    .forEach(sym=>{
+      const c=document.createElement("div");
+      c.className="card";
+      c.innerHTML=`
+        <div class="card-inner">
+          <div class="card-face">❓</div>
+          <div class="card-face card-back">${sym}</div>
+        </div>`;
+      c.onclick=()=>{
+        if(c.classList.contains("flipped"))return;
+        c.classList.add("flipped");
+        if(sym==="🧸"){
+          confetti();
+          gameMsg.innerText=
 `Your loyalty is the quiet promise my heart trusts.
 You are not a moment — you are a direction.
 My heart learned patience the day it chose you.`;
-        setTimeout(()=>goTo('final'),3500);
-      }
-    };
-    cardsBox.appendChild(c);
-  });
+          setTimeout(()=>goTo('final'),3500);
+        }
+      };
+      cardsBox.appendChild(c);
+    });
 }
 
 /* CONFETTI */

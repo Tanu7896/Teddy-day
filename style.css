@@ -61,6 +61,8 @@ body{
   width:220px;
   border-radius:16px;
   margin-bottom:15px;
+  opacity:1;
+  transition:opacity .6s ease;
 }
 
 .quote{
@@ -68,6 +70,12 @@ body{
   font-size:20px;
   text-align:center;
   margin-bottom:15px;
+  opacity:1;
+  transition:opacity .6s ease;
+}
+
+.fade-out{
+  opacity:0;
 }
 
 .soft{
@@ -85,7 +93,7 @@ button{
   cursor:pointer;
 }
 
-/* 🃏 CARD FLIP */
+/* CARD FLIP */
 .cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -143,7 +151,7 @@ button{
   to{opacity:1}
 }
 
-/* 🎉 CONFETTI */
+/* CONFETTI */
 .confetti{
   position:fixed;
   top:-20px;

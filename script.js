@@ -7,7 +7,7 @@ function goTo(id){
   if(id==="game") setupGame();
 }
 
-/* 💖 EXTRA LOVE START */
+/* START LOVE */
 function startLove(){
   music.play().catch(()=>{});
   goTo('intro');
@@ -41,18 +41,28 @@ const imgEl=document.getElementById("memoryImg");
 const qEl=document.getElementById("memoryQuote");
 
 function showMemory(){
-  imgEl.src=memories[m].img;
-  qEl.innerText=memories[m].q;
+  imgEl.classList.add("fade-out");
+  qEl.classList.add("fade-out");
+
+  setTimeout(()=>{
+    imgEl.src=memories[m].img;
+    qEl.innerText=memories[m].q;
+    imgEl.classList.remove("fade-out");
+    qEl.classList.remove("fade-out");
+  },300);
 }
 showMemory();
 
 function nextMemory(){
   m++;
-  if(m<memories.length) showMemory();
-  else goTo('game');
+  if(m<memories.length){
+    showMemory();
+  }else{
+    goTo('game');
+  }
 }
 
-/* 🎮 GAME WITH FLIP + SHUFFLE */
+/* GAME */
 const cardsBox=document.querySelector(".cards");
 const gameMsg=document.getElementById("gameMsg");
 
@@ -64,17 +74,14 @@ function setupGame(){
   items.forEach(sym=>{
     const card=document.createElement("div");
     card.className="card";
-
     card.innerHTML=`
       <div class="card-inner">
         <div class="card-face">❓</div>
         <div class="card-face card-back">${sym}</div>
       </div>`;
-
     card.onclick=()=>{
       if(card.classList.contains("flipped")) return;
       card.classList.add("flipped");
-
       if(sym==="🧸"){
         confetti();
         gameMsg.innerText=
@@ -88,7 +95,7 @@ My heart learned patience the day it chose you.`;
   });
 }
 
-/* 🎉 CONFETTI */
+/* CONFETTI */
 function confetti(){
   for(let i=0;i<40;i++){
     const c=document.createElement("span");
